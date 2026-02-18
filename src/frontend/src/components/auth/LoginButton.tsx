@@ -12,6 +12,7 @@ export default function LoginButton() {
 
   const handleAuth = async () => {
     if (isAuthenticated) {
+      // Clear identity and all cached queries
       await clear();
       queryClient.clear();
     } else {

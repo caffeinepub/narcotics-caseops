@@ -14,6 +14,7 @@ import {
 import { Home, FolderOpen, ListTodo, Activity, Package, User, LogOut, Building2, BookOpen, Users, Shield } from 'lucide-react';
 import { useQueryClient } from '@tanstack/react-query';
 import { SiCaffeine } from 'react-icons/si';
+import MobileNav from './MobileNav';
 
 interface AppShellProps {
   children: ReactNode;
@@ -28,6 +29,7 @@ export default function AppShell({ children }: AppShellProps) {
   const currentPath = routerState.location.pathname;
 
   const handleLogout = async () => {
+    // Clear identity and all cached queries to ensure clean logout
     await clear();
     queryClient.clear();
   };
@@ -44,16 +46,16 @@ export default function AppShell({ children }: AppShellProps) {
 
   return (
     <div className="flex min-h-screen flex-col bg-background">
-      <header className="sticky top-0 z-50 border-b border-border bg-card shadow-sm">
+      <header className="sticky top-0 z-50 border-b border-border bg-card shadow-sm safe-top">
         <div className="container mx-auto flex h-16 items-center justify-between px-4">
-          <div className="flex items-center gap-3">
-            <img src="/assets/generated/narc_eye_logo.png.dim_1024x1024.jpeg" alt="NARC EYE Logo" className="h-10 w-10 object-contain" />
+          <div className="flex items-center gap-2 sm:gap-3">
+            <img src="/assets/generated/narc_eye_logo.png.dim_1024x1024.jpeg" alt="NARC EYE Logo" className="h-8 w-8 sm:h-10 sm:w-10 object-contain" />
             <div>
-              <h1 className="text-lg font-bold leading-tight text-foreground">NARC EYE</h1>
-              <p className="text-xs text-muted-foreground">Anti-Narcotics Task Force (Ops)</p>
+              <h1 className="text-base sm:text-lg font-bold leading-tight text-foreground">NARC EYE</h1>
+              <p className="hidden sm:block text-xs text-muted-foreground">Anti-Narcotics Task Force (Ops)</p>
             </div>
           </div>
-          <nav className="hidden items-center gap-1 md:flex">
+          <nav className="hidden items-center gap-1 lg:flex">
             {navItems.map((item) => {
               const Icon = item.icon;
               const isActive = currentPath === item.path || (item.path !== '/' && currentPath.startsWith(item.path));
@@ -123,25 +125,10 @@ export default function AppShell({ children }: AppShellProps) {
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
-        <div className="border-t border-border md:hidden">
-          <nav className="container mx-auto flex items-center justify-around px-2 py-2">
-            {navItems.slice(0, 5).map((item) => {
-              const Icon = item.icon;
-              const isActive = currentPath === item.path || (item.path !== '/' && currentPath.startsWith(item.path));
-              return (
-                <Link key={item.path} to={item.path}>
-                  <Button variant={isActive ? 'default' : 'ghost'} size="sm" className="flex-col gap-1 h-auto py-2">
-                    <Icon className="h-4 w-4" />
-                    <span className="text-xs">{item.label.split(' ')[0]}</span>
-                  </Button>
-                </Link>
-              );
-            })}
-          </nav>
-        </div>
       </header>
-      <main className="flex-1 container mx-auto px-4 py-6">{children}</main>
-      <footer className="border-t border-border bg-card py-6">
+      <main className="flex-1 container mx-auto px-4 py-6 pb-24 md:pb-6">{children}</main>
+      <MobileNav />
+      <footer className="border-t border-border bg-card py-6 safe-bottom">
         <div className="container mx-auto px-4 text-center text-sm text-muted-foreground">
           <p>
             © {new Date().getFullYear()} NARC EYE. Built with{' '}

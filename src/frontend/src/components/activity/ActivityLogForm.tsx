@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { useLogActivity } from '../../hooks/useQueries';
+import { useLogOfficerActivity } from '../../hooks/useQueries';
 import { ActivityType } from '../../backend';
 import { toast } from 'sonner';
 
@@ -15,7 +15,7 @@ interface ActivityLogFormProps {
 export default function ActivityLogForm({ onClose }: ActivityLogFormProps) {
   const [activityType, setActivityType] = useState<ActivityType | ''>('');
   const [description, setDescription] = useState('');
-  const logActivity = useLogActivity();
+  const logActivity = useLogOfficerActivity();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

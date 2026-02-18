@@ -1,57 +1,60 @@
 {
   "kind": "coverage_report",
   "version": "1.0",
-  "generatedAt": "2026-02-18T07:03:54.789Z",
+  "generatedAt": "2026-02-18T07:54:59.743Z",
   "sources": {
     "buildRequest": true,
     "implementationPlan": true
   },
   "requirements": {
-    "total": 4,
-    "implemented": 4,
+    "total": 3,
+    "implemented": 3,
     "items": [
       {
         "id": "REQ-1",
-        "summary": "Update the ANTF Structure reference page to match the provided “Anti-Narcotics Task Force (Ops)” organizational structure narrative, including: command hierarchy (Special Inspector General of Police; HQ Pune; Deputy Inspector General of Police at HQ; SP (Ops) Pune Unit; SP (Ops) Nagpur Unit), subordinate postings under Pune and Nagpur territory units, and the list of range districts for Dy.SP (Ops) divisions.",
+        "summary": "Ensure the app has a complete, user-friendly login screen and authentication flow using Internet Identity, including clear login/logout states and a loading/initialization state before the app shell renders.",
         "status": "implemented",
         "plannedFiles": [
-          "frontend/src/pages/AntfStructurePage.tsx"
+          "frontend/src/components/auth/AuthGate.tsx",
+          "frontend/src/components/auth/LoginButton.tsx",
+          "frontend/src/components/layout/AppShell.tsx"
         ],
         "matchedFiles": [
-          "frontend/src/pages/AntfStructurePage.tsx"
+          "frontend/src/components/auth/AuthGate.tsx",
+          "frontend/src/components/auth/LoginButton.tsx",
+          "frontend/src/components/layout/AppShell.tsx"
         ]
       },
       {
         "id": "REQ-2",
-        "summary": "Update the ANTF Structure page to include the Legal Advisor and Forensic Expert role descriptions exactly as provided (including responsibilities list for Legal Advisor and the note that the number of posts may be increased in the future depending on scope of work).",
+        "summary": "Add an authorization-aware gate after Internet Identity login so that users who are authenticated but do not yet have required backend permissions do not see broken pages; instead, show an 'Access Denied / Not Authorized' screen that includes the user’s Principal ID and clear instructions to contact an admin for role assignment.",
         "status": "implemented",
         "plannedFiles": [
-          "frontend/src/pages/AntfStructurePage.tsx"
+          "frontend/src/components/auth/AccessDeniedScreen.tsx",
+          "frontend/src/components/auth/AuthGate.tsx",
+          "frontend/src/hooks/useQueries.ts",
+          "frontend/src/utils/authErrors.ts"
         ],
         "matchedFiles": [
-          "frontend/src/pages/AntfStructurePage.tsx"
+          "frontend/src/components/auth/AccessDeniedScreen.tsx",
+          "frontend/src/components/auth/AuthGate.tsx",
+          "frontend/src/hooks/useQueries.ts",
+          "frontend/src/utils/authErrors.ts"
         ]
       },
       {
         "id": "REQ-3",
-        "summary": "Update the ANTF Structure page to include the staffing composition statement for each Dy.SP (Ops) Division (total 31 personnel and the breakdown: 01 Dy.SP, 02 PI, 02 API, 02 PSI, 24 officials).",
+        "summary": "Adjust the post-login onboarding so that profile setup is only shown when the authenticated user is authorized and the backend indicates the profile is missing (null), and show a clear error message if profile creation fails due to authorization or other backend errors.",
         "status": "implemented",
         "plannedFiles": [
-          "frontend/src/pages/AntfStructurePage.tsx"
+          "frontend/src/components/auth/AuthGate.tsx",
+          "frontend/src/components/auth/ProfileSetupModal.tsx",
+          "frontend/src/utils/authErrors.ts"
         ],
         "matchedFiles": [
-          "frontend/src/pages/AntfStructurePage.tsx"
-        ]
-      },
-      {
-        "id": "REQ-4",
-        "summary": "Correct obvious spelling/terminology issues in Appendix “A” and related ANTF Structure page copy while preserving meaning (e.g., Konkan/Kokan, Commissionerate spelling, and place-name spelling consistency) so the reference page reads professionally in English.",
-        "status": "implemented",
-        "plannedFiles": [
-          "frontend/src/pages/AntfStructurePage.tsx"
-        ],
-        "matchedFiles": [
-          "frontend/src/pages/AntfStructurePage.tsx"
+          "frontend/src/components/auth/AuthGate.tsx",
+          "frontend/src/components/auth/ProfileSetupModal.tsx",
+          "frontend/src/utils/authErrors.ts"
         ]
       }
     ]
@@ -61,7 +64,15 @@
     "feature_evidence.json",
     "frontend-file-summaries.txt",
     "frontend-implementation-plan.json",
-    "frontend/src/pages/AntfStructurePage.tsx",
+    "frontend/src/components/activity/ActivityLogForm.tsx",
+    "frontend/src/components/auth/AccessDeniedScreen.tsx",
+    "frontend/src/components/auth/AuthGate.tsx",
+    "frontend/src/components/auth/LoginButton.tsx",
+    "frontend/src/components/auth/ProfileSetupModal.tsx",
+    "frontend/src/components/layout/AppShell.tsx",
+    "frontend/src/hooks/useQueries.ts",
+    "frontend/src/pages/AccusedInformationPage.tsx",
+    "frontend/src/utils/authErrors.ts",
     "project_state.json",
     "scratch/component-selection.json",
     "spec.md",

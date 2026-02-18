@@ -1,13 +1,13 @@
 # Specification
 
 ## Summary
-**Goal:** Update the ANTF Structure reference page content to match the provided “Anti-Narcotics Task Force (Ops)” organizational structure narrative and professional English copy.
+**Goal:** Add a simple Internet Identity login flow with clear authenticated/unauthenticated states and an authorization gate that prevents unauthorized users from seeing broken pages.
 
 **Planned changes:**
-- Update `/antf-structure` page text to reflect the correct command hierarchy (Special Inspector General of Police; HQ Pune; Deputy Inspector General of Police at HQ; SP (Ops) Pune Unit; SP (Ops) Nagpur Unit), subordinate postings under Pune and Nagpur territory units, and the range-district mapping list for Dy.SP (Ops) divisions.
-- Add the Legal Advisor section with the provided description and the three responsibilities listed in the given order.
-- Add the Forensic Expert section with the provided description, including the note that posts may be increased in the future depending on scope of work.
-- Add the staffing composition statement for each Dy.SP (Ops) Division (total 31 personnel with the specified role breakdown).
-- Correct obvious spelling/terminology issues in Appendix “A” and related page copy (e.g., Konkan spelling, Commissionerate spelling, place-name consistency) without changing meaning.
+- Add a dedicated login screen shown when the user is not authenticated (instead of rendering the main AppShell/routes).
+- Add an initialization/loading state while Internet Identity is starting up, before rendering the app shell.
+- Add a post-login authorization gate that detects Unauthorized backend responses and shows an “Access Denied / Not Authorized” screen with the user’s Principal ID and guidance to contact an admin for role assignment.
+- Ensure logout works from both the main app and access-denied screen, returning to the login screen and clearing cached queries so no authenticated data remains visible.
+- Adjust onboarding so ProfileSetupModal only appears when the user is authenticated, authorized, and the backend profile is missing (null); show clear, user-friendly errors if profile creation fails (Unauthorized vs other errors).
 
-**User-visible outcome:** Visiting `/antf-structure` shows the updated ANTF (Ops) structure, role descriptions, staffing composition, and professionally spelled Appendix “A” district/jurisdiction text in English.
+**User-visible outcome:** Users see a login screen until they sign in with Internet Identity; after login they either access the app normally (and only see profile setup if needed) or see a friendly access-denied page with their Principal ID and logout option if they lack permissions.

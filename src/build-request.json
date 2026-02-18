@@ -1,99 +1,77 @@
 {
   "kind": "build_request",
-  "title": "Update ANTF Structure reference content (Ops)",
+  "title": "Add a simple Internet Identity login and authorization gate",
   "projectName": "Narcotics Duty Desk",
   "priority": "normal",
   "requirements": [
     {
       "id": "REQ-1",
-      "text": "Update the ANTF Structure reference page to match the provided “Anti-Narcotics Task Force (Ops)” organizational structure narrative, including: command hierarchy (Special Inspector General of Police; HQ Pune; Deputy Inspector General of Police at HQ; SP (Ops) Pune Unit; SP (Ops) Nagpur Unit), subordinate postings under Pune and Nagpur territory units, and the list of range districts for Dy.SP (Ops) divisions.",
+      "text": "Ensure the app has a complete, user-friendly login screen and authentication flow using Internet Identity, including clear login/logout states and a loading/initialization state before the app shell renders.",
       "target": "frontend",
       "source": {
         "messageIds": [
           "msg-4"
         ],
         "quotes": [
-          "Anti-Narcotics Task Force (Ops)\nStructure of the Anti-Narcotics Task Force (Ops) :-\nThe Anti-Narcotics Task Force (Ops) is headed by a Special Inspector General of\nPolice..."
+          "yes"
         ]
       },
       "acceptanceCriteria": [
-        "Navigating to /antf-structure shows the ANTF hierarchy text consistent with the user-provided structure (head, HQ Pune, DIG at HQ, Pune/Nagpur SP units, subordinate Dy.SP postings, and range district mapping list).",
-        "All user-facing content on the page is in English."
+        "When the user is not authenticated, the app shows a dedicated login screen (not the main AppShell) with a Login button.",
+        "While Internet Identity is initializing, the app shows an initialization/loading state.",
+        "When the user is authenticated, the main app routes render normally.",
+        "The user can logout, and the app returns to the login screen and clears cached queries (no authenticated data remains visible)."
       ]
     },
     {
       "id": "REQ-2",
-      "text": "Update the ANTF Structure page to include the Legal Advisor and Forensic Expert role descriptions exactly as provided (including responsibilities list for Legal Advisor and the note that the number of posts may be increased in the future depending on scope of work).",
+      "text": "Add an authorization-aware gate after Internet Identity login so that users who are authenticated but do not yet have required backend permissions do not see broken pages; instead, show an 'Access Denied / Not Authorized' screen that includes the user’s Principal ID and clear instructions to contact an admin for role assignment.",
       "target": "frontend",
       "source": {
         "messageIds": [
           "msg-4"
         ],
         "quotes": [
-          "Legal Advisor:- There will be one Legal Advisor under the control of the Superintendent of Police (Ops)...",
-          "Forensic Expert:- There will be one Forensic Expert under the control of the Superintendent of Police (Ops)..."
+          "yes"
         ]
       },
       "acceptanceCriteria": [
-        "The ANTF Structure page contains a clearly labeled Legal Advisor section with the three responsibilities listed in order.",
-        "The ANTF Structure page contains a clearly labeled Forensic Expert section with the provided description and future-scope note."
+        "If backend queries fail due to Unauthorized errors after login (e.g., profile/role checks), the app shows a friendly access-denied screen rather than rendering the main pages with failing queries.",
+        "The access-denied screen displays the logged-in Principal ID in a copyable form.",
+        "The access-denied screen instructs the user to contact an administrator to assign a role (e.g., User/Admin) via the existing Role Management flow.",
+        "The user can logout from the access-denied screen."
       ]
     },
     {
       "id": "REQ-3",
-      "text": "Update the ANTF Structure page to include the staffing composition statement for each Dy.SP (Ops) Division (total 31 personnel and the breakdown: 01 Dy.SP, 02 PI, 02 API, 02 PSI, 24 officials).",
+      "text": "Adjust the post-login onboarding so that profile setup is only shown when the authenticated user is authorized and the backend indicates the profile is missing (null), and show a clear error message if profile creation fails due to authorization or other backend errors.",
       "target": "frontend",
       "source": {
         "messageIds": [
           "msg-4"
         ],
         "quotes": [
-          "Each Deputy Superintendent of Police (Ops) Division has a total of 31 officers and\nofficials, including 01 Deputy Superintendent of Police, 02 Police Inspectors, 02 Assistant\nPolice Inspectors, 02 Police Sub-Inspectors and a total of 24 officials."
+          "yes"
         ]
       },
       "acceptanceCriteria": [
-        "The ANTF Structure page displays the total strength (31) and the full breakdown of roles exactly as specified."
-      ]
-    },
-    {
-      "id": "REQ-4",
-      "text": "Correct obvious spelling/terminology issues in Appendix “A” and related ANTF Structure page copy while preserving meaning (e.g., Konkan/Kokan, Commissionerate spelling, and place-name spelling consistency) so the reference page reads professionally in English.",
-      "target": "frontend",
-      "source": {
-        "messageIds": [
-          "msg-4"
-        ],
-        "quotes": [
-          "The list of districts falling under Pune and Nagpur sub-categories is as per Appendix \"A\""
-        ]
-      },
-      "acceptanceCriteria": [
-        "Appendix “A” headings and district list items use consistent English spelling (e.g., “Konkan” and “Commissionerate”) and do not contain typographical errors such as “Commissionrate/Commissionarate”.",
-        "No change alters the intent of the jurisdiction mapping; only spelling/terminology cleanup is applied."
+        "ProfileSetupModal is only shown when the user is authenticated, authorized, and getCallerUserProfile returns null (missing profile).",
+        "If saving the profile fails with an Unauthorized error, the UI shows a specific, user-friendly message indicating the user is not authorized and needs an admin role assignment.",
+        "If saving the profile fails for other reasons, the UI shows a user-friendly error and does not dismiss the modal."
       ]
     }
   ],
   "constraints": [
-    "Use English for any user-facing text.",
-    "Do not modify files under frontend/src/components/ui (Shadcn components are read-only).",
-    "Keep backend as a single Motoko actor; do not introduce additional backend services."
+    "Do not edit files under frontend/src/components/ui (Shadcn components must be composed, not modified).",
+    "Do not modify immutable frontend paths: frontend/src/hooks/useInternetIdentity.ts, frontend/src/hooks/useInternetIdentity.tsx, frontend/src/hooks/useActor.ts, frontend/src/main.tsx."
   ],
   "nonGoals": [
-    "Adding new backend data models for ANTF structure content (this request is limited to updating the reference page content/presentation).",
-    "Integrating external systems or databases for jurisdiction/district lists."
+    "Adding third-party authentication providers (only Internet Identity is supported).",
+    "Implementing real-time communication features (WebSockets/chat).",
+    "Adding external databases or non-Motoko backend services."
   ],
   "imageRequirements": {
     "required": [],
     "edits": []
-  },
-  "userProfileUpdate": {
-    "goalsToAdd": [],
-    "goalsToRemove": [],
-    "preferencesToAdd": [],
-    "preferencesToRemove": [],
-    "miscToAdd": [],
-    "miscToRemove": [],
-    "fieldsToSet": {},
-    "fieldsToDelete": []
   }
 }

@@ -29,7 +29,7 @@ export function useGetCallerUserProfile() {
       return actor.getCallerUserProfile();
     },
     enabled: !!actor && !actorFetching,
-    retry: false,
+    retry: false, // Don't retry on authorization failures
   });
 
   return {
@@ -65,6 +65,7 @@ export function useGetCallerUserRole() {
       return actor.getCallerUserRole();
     },
     enabled: !!actor && !actorFetching,
+    retry: false, // Don't retry on authorization failures
   });
 }
 
@@ -78,6 +79,7 @@ export function useIsCallerAdmin() {
       return actor.isCallerAdmin();
     },
     enabled: !!actor && !actorFetching,
+    retry: false, // Don't retry on authorization failures
   });
 }
 
@@ -177,6 +179,20 @@ export function useGetAllTasks() {
   });
 }
 
+export function useGetTask(taskId: bigint | undefined) {
+  const { actor, isFetching: actorFetching } = useActor();
+
+  return useQuery<InvestigationTask | null>({
+    queryKey: ['task', taskId?.toString()],
+    queryFn: async () => {
+      if (!actor || !taskId) return null;
+      return actor.getInvestigationTask(taskId);
+    },
+    enabled: !!actor && !actorFetching && !!taskId,
+    refetchInterval: 10000,
+  });
+}
+
 export function useCreateTask() {
   const { actor } = useActor();
   const queryClient = useQueryClient();
@@ -206,8 +222,9 @@ export function useUpdateTaskStatus() {
       if (!actor) throw new Error('Actor not available');
       return actor.updateTaskStatus(data.taskId, data.status);
     },
-    onSuccess: () => {
+    onSuccess: (_, variables) => {
       queryClient.invalidateQueries({ queryKey: ['tasks'] });
+      queryClient.invalidateQueries({ queryKey: ['task', variables.taskId.toString()] });
     },
   });
 }
@@ -227,7 +244,7 @@ export function useGetAllActivityLogs() {
   });
 }
 
-export function useLogActivity() {
+export function useLogOfficerActivity() {
   const { actor } = useActor();
   const queryClient = useQueryClient();
 
@@ -293,30 +310,31 @@ export function useUpdateEvidenceStatus() {
 }
 
 // Accused Database Queries
-export function useGetAllAccusedRecords() {
+export function useGetAllAccused() {
   const { actor, isFetching: actorFetching } = useActor();
 
   return useQuery<AccusedDatabase[]>({
-    queryKey: ['accusedRecords'],
+    queryKey: ['accused'],
     queryFn: async () => {
       if (!actor) return [];
       return actor.getAllAccusedRecords();
     },
     enabled: !!actor && !actorFetching,
+    refetchInterval: 10000,
   });
 }
 
-export function useGetAccusedRecordsByStatus(status: AccusedStatus | null) {
+export function useGetAccusedByStatus(status: AccusedStatus | undefined) {
   const { actor, isFetching: actorFetching } = useActor();
 
   return useQuery<AccusedDatabase[]>({
-    queryKey: ['accusedRecords', 'byStatus', status],
+    queryKey: ['accused', 'status', status],
     queryFn: async () => {
-      if (!actor) return [];
-      if (!status) return actor.getAllAccusedRecords();
+      if (!actor || !status) return [];
       return actor.getAccusedRecordsByStatus(status);
     },
-    enabled: !!actor && !actorFetching,
+    enabled: !!actor && !actorFetching && !!status,
+    refetchInterval: 10000,
   });
 }
 
@@ -324,30 +342,34 @@ export function useGetAccusedRecord(accusedId: bigint | undefined) {
   const { actor, isFetching: actorFetching } = useActor();
 
   return useQuery<AccusedDatabase | null>({
-    queryKey: ['accusedRecord', accusedId?.toString()],
+    queryKey: ['accused', accusedId?.toString()],
     queryFn: async () => {
       if (!actor || !accusedId) return null;
       return actor.getAccusedRecord(accusedId);
     },
     enabled: !!actor && !actorFetching && !!accusedId,
+    refetchInterval: 10000,
   });
 }
 
-export function useSearchAccusedRecords(
-  nameQuery: string | null,
-  firQuery: string | null,
-  policeStationQuery: string | null,
-  statusFilter: AccusedStatus | null
-) {
-  const { actor, isFetching: actorFetching } = useActor();
+export function useSearchAccused() {
+  const { actor } = useActor();
 
-  return useQuery<AccusedDatabase[]>({
-    queryKey: ['accusedRecords', 'search', nameQuery, firQuery, policeStationQuery, statusFilter],
-    queryFn: async () => {
-      if (!actor) return [];
-      return actor.searchAccusedRecords(nameQuery, firQuery, policeStationQuery, statusFilter);
+  return useMutation({
+    mutationFn: async (data: {
+      nameQuery?: string;
+      firQuery?: string;
+      policeStationQuery?: string;
+      statusFilter?: AccusedStatus;
+    }) => {
+      if (!actor) throw new Error('Actor not available');
+      return actor.searchAccusedRecords(
+        data.nameQuery || null,
+        data.firQuery || null,
+        data.policeStationQuery || null,
+        data.statusFilter || null
+      );
     },
-    enabled: !!actor && !actorFetching && (!!nameQuery || !!firQuery || !!policeStationQuery || !!statusFilter),
   });
 }
 
@@ -375,7 +397,7 @@ export function useCreateAccused() {
       );
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['accusedRecords'] });
+      queryClient.invalidateQueries({ queryKey: ['accused'] });
     },
   });
 }
@@ -406,8 +428,8 @@ export function useUpdateAccused() {
       );
     },
     onSuccess: (_, variables) => {
-      queryClient.invalidateQueries({ queryKey: ['accusedRecords'] });
-      queryClient.invalidateQueries({ queryKey: ['accusedRecord', variables.accusedId.toString()] });
+      queryClient.invalidateQueries({ queryKey: ['accused'] });
+      queryClient.invalidateQueries({ queryKey: ['accused', variables.accusedId.toString()] });
     },
   });
 }
@@ -432,8 +454,8 @@ export function useAddInvestigationRecordToAccused() {
       );
     },
     onSuccess: (_, variables) => {
-      queryClient.invalidateQueries({ queryKey: ['accusedRecords'] });
-      queryClient.invalidateQueries({ queryKey: ['accusedRecord', variables.accusedId.toString()] });
+      queryClient.invalidateQueries({ queryKey: ['accused'] });
+      queryClient.invalidateQueries({ queryKey: ['accused', variables.accusedId.toString()] });
     },
   });
 }

@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import LastUpdatedBadge from '../components/data/LastUpdatedBadge';
 import ManualRefreshButton from '../components/data/ManualRefreshButton';
-import { FolderOpen, ListTodo, Activity, Package, TrendingUp } from 'lucide-react';
+import { FolderOpen, ListTodo, Activity, Package } from 'lucide-react';
 import { CaseStatus, TaskStatus } from '../backend';
 
 export default function DashboardPage() {
@@ -25,15 +25,15 @@ export default function DashboardPage() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
-          <p className="text-muted-foreground">Overview of current operations</p>
+          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">Dashboard</h1>
+          <p className="text-sm text-muted-foreground">Overview of current operations</p>
         </div>
         <ManualRefreshButton onRefresh={handleRefreshAll} isRefreshing={casesLoading || tasksLoading} />
       </div>
 
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Total Cases</CardTitle>
@@ -79,10 +79,10 @@ export default function DashboardPage() {
         </Card>
       </div>
 
-      <div className="grid gap-6 md:grid-cols-2">
+      <div className="grid gap-6 lg:grid-cols-2">
         <Card>
           <CardHeader>
-            <div className="flex items-center justify-between">
+            <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
               <CardTitle>Recent Activity</CardTitle>
               <LastUpdatedBadge dataUpdatedAt={logsUpdatedAt} isLoading={logsLoading} />
             </div>
@@ -94,10 +94,10 @@ export default function DashboardPage() {
               <div className="space-y-3">
                 {recentLogs.map((log) => (
                   <div key={log.id.toString()} className="flex items-start gap-3 border-b border-border pb-3 last:border-0 last:pb-0">
-                    <Activity className="h-4 w-4 mt-0.5 text-muted-foreground" />
-                    <div className="flex-1 space-y-1">
-                      <p className="text-sm font-medium">{log.activityType}</p>
-                      <p className="text-xs text-muted-foreground">{log.description}</p>
+                    <Activity className="h-4 w-4 mt-0.5 text-muted-foreground flex-shrink-0" />
+                    <div className="flex-1 space-y-1 min-w-0">
+                      <p className="text-sm font-medium break-words">{log.activityType}</p>
+                      <p className="text-xs text-muted-foreground break-words">{log.description}</p>
                       <p className="text-xs text-muted-foreground">{log.timestamp}</p>
                     </div>
                   </div>
@@ -109,7 +109,7 @@ export default function DashboardPage() {
 
         <Card>
           <CardHeader>
-            <div className="flex items-center justify-between">
+            <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
               <CardTitle>Case Status Overview</CardTitle>
               <LastUpdatedBadge dataUpdatedAt={casesUpdatedAt} isLoading={casesLoading} />
             </div>

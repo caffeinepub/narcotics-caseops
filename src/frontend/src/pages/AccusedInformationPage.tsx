@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { useGetAllAccusedRecords, useSearchAccusedRecords } from '../hooks/useQueries';
+import { useState, useEffect } from 'react';
+import { useGetAllAccused, useSearchAccused } from '../hooks/useQueries';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -18,16 +18,23 @@ export default function AccusedInformationPage() {
 
   const hasFilters = nameQuery || firQuery || policeStationQuery || selectedStatus;
 
-  const { data: allRecords = [], isLoading: allLoading } = useGetAllAccusedRecords();
-  const { data: searchResults = [], isLoading: searchLoading } = useSearchAccusedRecords(
-    nameQuery || null,
-    firQuery || null,
-    policeStationQuery || null,
-    selectedStatus
-  );
+  const { data: allRecords = [], isLoading: allLoading } = useGetAllAccused();
+  const searchMutation = useSearchAccused();
 
-  const displayRecords = hasFilters ? searchResults : allRecords;
-  const isLoading = hasFilters ? searchLoading : allLoading;
+  // Trigger search when filters change
+  useEffect(() => {
+    if (hasFilters) {
+      searchMutation.mutate({
+        nameQuery: nameQuery || undefined,
+        firQuery: firQuery || undefined,
+        policeStationQuery: policeStationQuery || undefined,
+        statusFilter: selectedStatus || undefined,
+      });
+    }
+  }, [nameQuery, firQuery, policeStationQuery, selectedStatus, hasFilters]);
+
+  const displayRecords = hasFilters ? (searchMutation.data || []) : allRecords;
+  const isLoading = hasFilters ? searchMutation.isPending : allLoading;
 
   const jailRecords = displayRecords.filter((r) => r.status === AccusedStatus.inJail);
   const bailRecords = displayRecords.filter((r) => r.status === AccusedStatus.onBail);

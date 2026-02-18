@@ -1,45 +1,44 @@
 {
   "schemaVersion": "1.0.0",
   "projectStateVersion": 3,
-  "summary": "Project focused on documenting/presenting the organizational structure and roles of the Anti-Narcotics Task Force (Ops) (headquarters Pune; Pune/Nagpur units; divisions; Legal Advisor and Forensic Expert roles; staffing per division).",
+  "summary": "New project",
   "architectural_notes": [],
   "known_issues": [],
   "isFixRequest": false,
   "existing_features": [
     {
-      "id": "feature-update-the-antf-structure-reference-page-to-match-the-provided-anti-narcotics-task-force-ops-organizational-structure-narrative-including-command-hierarchy-special-inspector-general-of-police-hq-pune-deputy-inspector-general-of-police-at-hq-sp-ops-pune-unit-sp-ops-nagpur-unit-subordinate-postings-under-pune-and-nagpur-territory-units-and-the-list-of-range-districts-for-dy-sp-ops-divisions",
-      "title": "Update the ANTF Structure reference page to match the provided “Anti-Narcotics Task Force (Ops)” organizational structure narrative, including: command hierarchy (Special Inspector General of Police; HQ Pune; Deputy Inspector General of Police at HQ; SP (Ops) Pune Unit; SP (Ops) Nagpur Unit), subordinate postings under Pune and Nagpur territory units, and the list of range districts for Dy.SP (Ops) divisions.",
+      "id": "feature-ensure-the-app-has-a-complete-user-friendly-login-screen-and-authentication-flow-using-internet-identity-including-clear-login-logout-states-and-a-loading-initialization-state-before-the-app-shell-renders",
+      "title": "Ensure the app has a complete, user-friendly login screen and authentication flow using Internet Identity, including clear login/logout states and a loading/initialization state before the app shell renders.",
       "reqIds": [
         "REQ-1"
       ],
       "version": 1
     },
     {
-      "id": "feature-update-the-antf-structure-page-to-include-the-legal-advisor-and-forensic-expert-role-descriptions-exactly-as-provided-including-responsibilities-list-for-legal-advisor-and-the-note-that-the-number-of-posts-may-be-increased-in-the-future-depending-on-scope-of-work",
-      "title": "Update the ANTF Structure page to include the Legal Advisor and Forensic Expert role descriptions exactly as provided (including responsibilities list for Legal Advisor and the note that the number of posts may be increased in the future depending on scope of work).",
+      "id": "feature-add-an-authorization-aware-gate-after-internet-identity-login-so-that-users-who-are-authenticated-but-do-not-yet-have-required-backend-permissions-do-not-see-broken-pages-instead-show-an-access-denied-not-authorized-screen-that-includes-the-user-s-principal-id-and-clear-instructions-to-contact-an-admin-for-role-assignment",
+      "title": "Add an authorization-aware gate after Internet Identity login so that users who are authenticated but do not yet have required backend permissions do not see broken pages; instead, show an 'Access Denied / Not Authorized' screen that includes the user’s Principal ID and clear instructions to contact an admin for role assignment.",
       "reqIds": [
         "REQ-2"
       ],
       "version": 1
     },
     {
-      "id": "feature-update-the-antf-structure-page-to-include-the-staffing-composition-statement-for-each-dy-sp-ops-division-total-31-personnel-and-the-breakdown-01-dy-sp-02-pi-02-api-02-psi-24-officials",
-      "title": "Update the ANTF Structure page to include the staffing composition statement for each Dy.SP (Ops) Division (total 31 personnel and the breakdown: 01 Dy.SP, 02 PI, 02 API, 02 PSI, 24 officials).",
+      "id": "feature-adjust-the-post-login-onboarding-so-that-profile-setup-is-only-shown-when-the-authenticated-user-is-authorized-and-the-backend-indicates-the-profile-is-missing-null-and-show-a-clear-error-message-if-profile-creation-fails-due-to-authorization-or-other-backend-errors",
+      "title": "Adjust the post-login onboarding so that profile setup is only shown when the authenticated user is authorized and the backend indicates the profile is missing (null), and show a clear error message if profile creation fails due to authorization or other backend errors.",
       "reqIds": [
         "REQ-3"
       ],
       "version": 1
-    },
-    {
-      "id": "feature-correct-obvious-spelling-terminology-issues-in-appendix-a-and-related-antf-structure-page-copy-while-preserving-meaning-e-g-konkan-kokan-commissionerate-spelling-and-place-name-spelling-consistency-so-the-reference-page-reads-professionally-in-english",
-      "title": "Correct obvious spelling/terminology issues in Appendix “A” and related ANTF Structure page copy while preserving meaning (e.g., Konkan/Kokan, Commissionerate spelling, and place-name spelling consistency) so the reference page reads professionally in English.",
-      "reqIds": [
-        "REQ-4"
-      ],
-      "version": 1
     }
   ],
-  "new_feature_requests": [],
+  "new_feature_requests": [
+    {
+      "id": "AR-1",
+      "summary": "Add a simple login flow",
+      "reqIds": [],
+      "status": "pending"
+    }
+  ],
   "projectName": "Narcotics Duty Desk",
   "clarification_mode": "instant",
   "clarification_rounds": 0

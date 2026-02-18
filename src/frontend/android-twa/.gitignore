@@ -1,0 +1,23 @@
+# Android build outputs
+app/
+build/
+.gradle/
+local.properties
+
+# Keystore files (NEVER commit these!)
+keystore/*.keystore
+keystore/*.jks
+keystore/*.p12
+keystore/keystore.properties
+
+# Keep the directory structure
+!keystore/.gitkeep
+
+# Bubblewrap generated files
+.bubblewrap/
+node_modules/
+
+# IDE files
+.idea/
+*.iml
+.vscode/

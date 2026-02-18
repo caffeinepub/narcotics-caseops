@@ -14,6 +14,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { toast } from 'sonner';
 import { AccusedDatabase, AccusedStatus } from '../../backend';
+import { ScrollArea } from '@/components/ui/scroll-area';
 
 interface AccusedFormDialogProps {
   accused?: AccusedDatabase;
@@ -73,89 +74,90 @@ export default function AccusedFormDialog({ accused, onClose }: AccusedFormDialo
 
   return (
     <Dialog open onOpenChange={onClose}>
-      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+      <DialogContent className="max-w-2xl max-h-[90vh] flex flex-col">
         <DialogHeader>
           <DialogTitle>{accused ? 'Edit Accused Record' : 'Add New Accused'}</DialogTitle>
         </DialogHeader>
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <Label htmlFor="name">Name *</Label>
-            <Input
-              id="name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              placeholder="Enter accused name"
-              required
-            />
-          </div>
+        <ScrollArea className="flex-1 pr-4">
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div>
+              <Label htmlFor="name">Name *</Label>
+              <Input
+                id="name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder="Enter accused name"
+                required
+              />
+            </div>
 
-          <div>
-            <Label htmlFor="status">Status *</Label>
-            <Select value={status} onValueChange={(value) => setStatus(value as AccusedStatus)}>
-              <SelectTrigger>
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value={AccusedStatus.inJail}>In Jail</SelectItem>
-                <SelectItem value={AccusedStatus.onBail}>On Bail</SelectItem>
-                <SelectItem value={AccusedStatus.absconded}>Absconded</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
+            <div>
+              <Label htmlFor="status">Status *</Label>
+              <Select value={status} onValueChange={(value) => setStatus(value as AccusedStatus)}>
+                <SelectTrigger>
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value={AccusedStatus.inJail}>In Jail</SelectItem>
+                  <SelectItem value={AccusedStatus.onBail}>On Bail</SelectItem>
+                  <SelectItem value={AccusedStatus.absconded}>Absconded</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
 
-          <div>
-            <Label htmlFor="firDetails">FIR Details *</Label>
-            <Textarea
-              id="firDetails"
-              value={firDetails}
-              onChange={(e) => setFirDetails(e.target.value)}
-              placeholder="Enter FIR number and details"
-              rows={3}
-              required
-            />
-          </div>
+            <div>
+              <Label htmlFor="firDetails">FIR Details *</Label>
+              <Textarea
+                id="firDetails"
+                value={firDetails}
+                onChange={(e) => setFirDetails(e.target.value)}
+                placeholder="Enter FIR number and details"
+                rows={3}
+                required
+              />
+            </div>
 
-          <div>
-            <Label htmlFor="policeStation">Police Station *</Label>
-            <Input
-              id="policeStation"
-              value={policeStation}
-              onChange={(e) => setPoliceStation(e.target.value)}
-              placeholder="Enter police station name"
-              required
-            />
-          </div>
+            <div>
+              <Label htmlFor="policeStation">Police Station *</Label>
+              <Input
+                id="policeStation"
+                value={policeStation}
+                onChange={(e) => setPoliceStation(e.target.value)}
+                placeholder="Enter police station name"
+                required
+              />
+            </div>
 
-          <div>
-            <Label htmlFor="seizureDetails">Seizure Details</Label>
-            <Textarea
-              id="seizureDetails"
-              value={seizureDetails}
-              onChange={(e) => setSeizureDetails(e.target.value)}
-              placeholder="Enter seizure details"
-              rows={3}
-            />
-          </div>
+            <div>
+              <Label htmlFor="seizureDetails">Seizure Details</Label>
+              <Textarea
+                id="seizureDetails"
+                value={seizureDetails}
+                onChange={(e) => setSeizureDetails(e.target.value)}
+                placeholder="Enter seizure details"
+                rows={3}
+              />
+            </div>
 
-          <div>
-            <Label htmlFor="ndpsQuantity">NDPS Quantity Classification</Label>
-            <Input
-              id="ndpsQuantity"
-              value={ndpsQuantity}
-              onChange={(e) => setNdpsQuantity(e.target.value)}
-              placeholder="e.g., Small Quantity - 50g Heroin"
-            />
-          </div>
-
-          <DialogFooter>
-            <Button type="button" variant="outline" onClick={onClose} disabled={isSubmitting}>
-              Cancel
-            </Button>
-            <Button type="submit" disabled={isSubmitting}>
-              {isSubmitting ? 'Saving...' : accused ? 'Update' : 'Create'}
-            </Button>
-          </DialogFooter>
-        </form>
+            <div>
+              <Label htmlFor="ndpsQuantity">NDPS Quantity Classification</Label>
+              <Input
+                id="ndpsQuantity"
+                value={ndpsQuantity}
+                onChange={(e) => setNdpsQuantity(e.target.value)}
+                placeholder="e.g., Small Quantity - 50g Heroin"
+              />
+            </div>
+          </form>
+        </ScrollArea>
+        <DialogFooter className="flex-shrink-0">
+          <Button type="button" variant="outline" onClick={onClose} disabled={isSubmitting}>
+            Cancel
+          </Button>
+          <Button type="submit" onClick={handleSubmit} disabled={isSubmitting}>
+            {isSubmitting ? 'Saving...' : accused ? 'Update' : 'Create'}
+          </Button>
+        </DialogFooter>
       </DialogContent>
     </Dialog>
   );

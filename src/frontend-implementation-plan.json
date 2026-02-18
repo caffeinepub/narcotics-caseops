@@ -1,64 +1,90 @@
 {
   "kind": "implementation_plan",
   "version": "1.0",
-  "title": "Update ANTF Structure reference content (Ops)",
+  "title": "Internet Identity login flow with authorization gate and safe profile onboarding",
   "requirements": [
     {
       "id": "REQ-1",
-      "summary": "Revise the ANTF Structure reference page narrative to match the provided Anti-Narcotics Task Force (Ops) command hierarchy, subordinate postings for Pune/Nagpur units, and Dy.SP (Ops) range district mapping.",
+      "summary": "Provide a dedicated Internet Identity login screen with clear init/loading, authenticated app rendering, and robust logout cache clearing.",
       "acceptanceCriteria": [
-        "Navigating to /antf-structure shows the ANTF hierarchy text consistent with the user-provided structure (head, HQ Pune, DIG at HQ, Pune/Nagpur SP units, subordinate Dy.SP postings, and range district mapping list).",
-        "All user-facing content on the page is in English."
+        "When the user is not authenticated, the app shows a dedicated login screen (not the main AppShell) with a Login button.",
+        "While Internet Identity is initializing, the app shows an initialization/loading state.",
+        "When the user is authenticated, the main app routes render normally.",
+        "The user can logout, and the app returns to the login screen and clears cached queries (no authenticated data remains visible)."
       ],
       "file_operations": [
         {
-          "path": "frontend/src/pages/AntfStructurePage.tsx",
+          "path": "frontend/src/components/auth/AuthGate.tsx",
           "operation": "modify",
-          "description": "Update the static content in the hierarchy section to exactly reflect the provided “Anti-Narcotics Task Force (Ops)” organizational structure narrative: head (Special Inspector General of Police), HQ Pune, Deputy Inspector General of Police at HQ, SP (Ops) Pune Unit and SP (Ops) Nagpur Unit, subordinate postings under Pune and Nagpur territory units, and the list of range districts for Dy.SP (Ops) divisions (ensuring the displayed hierarchy and mapping match the provided narrative)."
+          "description": "Update the auth gate to ensure the app shell/routes only render after Internet Identity is initialized and the user is authenticated; keep the dedicated login screen for unauthenticated users. Use the selected \"authorization\" component’s frontend guidance for Internet Identity + cache clearing behavior (Verify the component's usage instructions before implementing)."
+        },
+        {
+          "path": "frontend/src/components/auth/LoginButton.tsx",
+          "operation": "modify",
+          "description": "Ensure logout consistently clears all cached React Query data and returns the UI to the dedicated login screen; keep clear login/logout states. Use the selected \"authorization\" component’s frontend guidance for logout cache clearing (Verify the component's usage instructions before implementing)."
+        },
+        {
+          "path": "frontend/src/components/layout/AppShell.tsx",
+          "operation": "modify",
+          "description": "Confirm logout from the user menu clears cached queries and drops identity so the app returns to the login screen with no authenticated data visible; keep behavior aligned with the selected \"authorization\" component guidance (Verify the component's usage instructions before implementing)."
         }
       ]
     },
     {
       "id": "REQ-2",
-      "summary": "Add/verify Legal Advisor and Forensic Expert sections on the ANTF Structure page with role descriptions exactly as provided, including responsibilities and future-scope note.",
+      "summary": "Add an authorization-aware post-login gate that shows an Access Denied screen (with Principal ID + instructions) when backend authorization checks fail.",
       "acceptanceCriteria": [
-        "The ANTF Structure page contains a clearly labeled Legal Advisor section with the three responsibilities listed in order.",
-        "The ANTF Structure page contains a clearly labeled Forensic Expert section with the provided description and future-scope note."
+        "If backend queries fail due to Unauthorized errors after login (e.g., profile/role checks), the app shows a friendly access-denied screen rather than rendering the main pages with failing queries.",
+        "The access-denied screen displays the logged-in Principal ID in a copyable form.",
+        "The access-denied screen instructs the user to contact an administrator to assign a role (e.g., User/Admin) via the existing Role Management flow.",
+        "The user can logout from the access-denied screen."
       ],
       "file_operations": [
         {
-          "path": "frontend/src/pages/AntfStructurePage.tsx",
+          "path": "frontend/src/components/auth/AccessDeniedScreen.tsx",
+          "operation": "create",
+          "description": "Create an AccessDeniedScreen component shown for authenticated-but-unauthorized users; display the current user Principal ID (copyable) and clear instructions to contact an admin for role assignment via the existing Role Management flow; include a Logout action. Use the selected \"authorization\" component’s Access Control UI guidance (Verify the component's usage instructions before implementing)."
+        },
+        {
+          "path": "frontend/src/components/auth/AuthGate.tsx",
           "operation": "modify",
-          "description": "Ensure the Legal Advisor and Forensic Expert sections reproduce the provided text exactly, including: (1) the Legal Advisor description, the three responsibilities in the correct order, and the note that the number of posts may be increased in the future depending on scope of work; (2) the Forensic Expert description and the same future-scope note."
+          "description": "Add an authorization-aware gate after login: perform role/profile permission checks and detect Unauthorized-like backend errors; if unauthorized, render AccessDeniedScreen instead of AppShell/routes so users never see broken pages. Use the selected \"authorization\" component guidance for handling authorization traps gracefully (Verify the component's usage instructions before implementing)."
+        },
+        {
+          "path": "frontend/src/hooks/useQueries.ts",
+          "operation": "modify",
+          "description": "Harden role/admin/profile-related queries used by the gate to avoid retry loops and to surface authorization failures predictably to the UI (e.g., disable retries for authorization checks and expose error state cleanly). Use the selected \"authorization\" component guidance for graceful handling of authorization traps (Verify the component's usage instructions before implementing)."
+        },
+        {
+          "path": "frontend/src/utils/authErrors.ts",
+          "operation": "create",
+          "description": "Add a small helper to classify backend/agent errors as Unauthorized (string matching on common trap/error messages) so AuthGate/ProfileSetup can show the correct Access Denied or user-friendly messages. Use this helper in the auth flow; align with the selected \"authorization\" component guidance on handling authorization errors (Verify the component's usage instructions before implementing)."
         }
       ]
     },
     {
       "id": "REQ-3",
-      "summary": "Add/verify the staffing composition statement for each Dy.SP (Ops) Division, showing total 31 personnel and the exact breakdown by role.",
+      "summary": "Ensure profile onboarding only appears for authorized users with missing profile, and show specific save-failure messages (Unauthorized vs other errors).",
       "acceptanceCriteria": [
-        "The ANTF Structure page displays the total strength (31) and the full breakdown of roles exactly as specified."
+        "ProfileSetupModal is only shown when the user is authenticated, authorized, and getCallerUserProfile returns null (missing profile).",
+        "If saving the profile fails with an Unauthorized error, the UI shows a specific, user-friendly message indicating the user is not authorized and needs an admin role assignment.",
+        "If saving the profile fails for other reasons, the UI shows a user-friendly error and does not dismiss the modal."
       ],
       "file_operations": [
         {
-          "path": "frontend/src/pages/AntfStructurePage.tsx",
+          "path": "frontend/src/components/auth/AuthGate.tsx",
           "operation": "modify",
-          "description": "Update the Officer Strength section to display the staffing composition statement exactly as provided: total 31 personnel and the breakdown (01 Dy.SP, 02 PI, 02 API, 02 PSI, 24 officials), ensuring wording and numbers match precisely."
-        }
-      ]
-    },
-    {
-      "id": "REQ-4",
-      "summary": "Clean up obvious spelling/terminology issues in Appendix “A” and related ANTF Structure copy while preserving meaning and jurisdiction mapping intent.",
-      "acceptanceCriteria": [
-        "Appendix “A” headings and district list items use consistent English spelling (e.g., “Konkan” and “Commissionerate”) and do not contain typographical errors such as “Commissionrate/Commissionarate”.",
-        "No change alters the intent of the jurisdiction mapping; only spelling/terminology cleanup is applied."
-      ],
-      "file_operations": [
+          "description": "Adjust the post-login onboarding decision so ProfileSetupModal only renders when the user is authenticated, authorized (role/permission check passes), and the profile query is fetched and returns null; if authorization checks fail, show AccessDeniedScreen instead. Use the selected \"authorization\" component’s \"Preventing Profile Setup Modal Flash\" guidance (Verify the component's usage instructions before implementing)."
+        },
         {
-          "path": "frontend/src/pages/AntfStructurePage.tsx",
+          "path": "frontend/src/components/auth/ProfileSetupModal.tsx",
           "operation": "modify",
-          "description": "Review and correct spelling/terminology in Appendix “A” and surrounding page copy for professional, consistent English (e.g., normalize Konkan/Kokan to “Konkan”, normalize “Commissionerate” spelling across all items, and fix any place-name spelling inconsistencies) without changing the underlying jurisdiction/district mapping intent."
+          "description": "Improve profile save error handling: if the mutation fails due to Unauthorized, show a specific message instructing the user to contact an admin for role assignment; otherwise show a generic friendly error and keep the modal open. Use the shared Unauthorized classification helper; align with selected \"authorization\" component guidance on authorization trap errors (Verify the component's usage instructions before implementing)."
+        },
+        {
+          "path": "frontend/src/utils/authErrors.ts",
+          "operation": "modify",
+          "description": "Extend/confirm Unauthorized detection to cover both read (getCallerUserProfile/getCallerUserRole) and write (saveCallerUserProfile) failures so UI can distinguish Unauthorized from other errors. Keep aligned with selected \"authorization\" component guidance (Verify the component's usage instructions before implementing)."
         }
       ]
     }

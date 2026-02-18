@@ -1,0 +1,45 @@
+{
+  "packageId": "ai.caffeine.narceye",
+  "host": "YOUR_CANISTER_ID.icp0.io",
+  "name": "NARC EYE - Anti-Narcotics Task Force",
+  "launcherName": "NARC EYE",
+  "display": "standalone",
+  "backgroundColor": "#0f1729",
+  "themeColor": "#1e3a8a",
+  "navigationColor": "#0f1729",
+  "navigationColorDark": "#0f1729",
+  "navigationDividerColor": "#1e3a8a",
+  "navigationDividerColorDark": "#1e3a8a",
+  "orientation": "portrait",
+  "startUrl": "/",
+  "iconUrl": "/assets/generated/narc_eye_app_icon.dim_512x512.png",
+  "maskableIconUrl": "/assets/generated/narc_eye_app_icon_maskable.dim_512x512.png",
+  "monochromeIconUrl": "/assets/generated/narc_eye_app_icon.dim_512x512.png",
+  "splashScreenFadeOutDuration": 300,
+  "signingKey": {
+    "path": "./keystore/android.keystore",
+    "alias": "narceye"
+  },
+  "appVersionName": "1.0.0",
+  "appVersionCode": 1,
+  "shortcuts": [],
+  "generatorApp": "bubblewrap-cli",
+  "webManifestUrl": "/manifest.webmanifest",
+  "fallbackType": "customtabs",
+  "enableNotifications": false,
+  "features": {
+    "locationDelegation": {
+      "enabled": false
+    },
+    "playBilling": {
+      "enabled": false
+    }
+  },
+  "alphaDependencies": {
+    "enabled": false
+  },
+  "enableSiteSettingsShortcut": true,
+  "isChromeOSOnly": false,
+  "minSdkVersion": 21,
+  "targetSdkVersion": 33
+}

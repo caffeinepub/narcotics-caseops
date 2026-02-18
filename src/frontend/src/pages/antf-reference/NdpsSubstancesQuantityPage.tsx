@@ -70,10 +70,10 @@ export default function NdpsSubstancesQuantityPage() {
   return (
     <div className="space-y-6">
       <div className="flex items-center gap-3">
-        <Pill className="h-8 w-8 text-primary" />
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight">NDPS Substances & Quantity</h1>
-          <p className="text-muted-foreground">Small and commercial quantity classification</p>
+        <Pill className="h-6 w-6 sm:h-8 sm:w-8 text-primary flex-shrink-0" />
+        <div className="min-w-0">
+          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight break-words">NDPS Substances & Quantity</h1>
+          <p className="text-sm text-muted-foreground">Small and commercial quantity classification</p>
         </div>
       </div>
 
@@ -82,7 +82,7 @@ export default function NdpsSubstancesQuantityPage() {
           <CardTitle>Quantity Classification</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
-          <div className="grid gap-4 md:grid-cols-3">
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             <div className="bg-green-50 dark:bg-green-950 p-4 rounded-lg border border-green-200 dark:border-green-800">
               <h3 className="font-semibold text-green-900 dark:text-green-100 mb-2">Small Quantity</h3>
               <p className="text-sm text-green-700 dark:text-green-300">
@@ -112,26 +112,30 @@ export default function NdpsSubstancesQuantityPage() {
           <CardTitle>NDPS Substances Quantity Table</CardTitle>
         </CardHeader>
         <CardContent>
-          <ScrollArea className="h-[500px]">
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead className="w-[40%]">Substance Name</TableHead>
-                  <TableHead className="w-[30%]">Small Quantity</TableHead>
-                  <TableHead className="w-[30%]">Commercial Quantity</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {substances.map((substance, index) => (
-                  <TableRow key={index}>
-                    <TableCell className="font-medium">{substance.name}</TableCell>
-                    <TableCell>{substance.smallQuantity}</TableCell>
-                    <TableCell>{substance.commercialQuantity}</TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </ScrollArea>
+          <div className="overflow-x-auto -mx-4 sm:mx-0">
+            <div className="inline-block min-w-full align-middle px-4 sm:px-0">
+              <ScrollArea className="h-[500px]">
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead className="min-w-[150px] sm:w-[40%]">Substance Name</TableHead>
+                      <TableHead className="min-w-[120px] sm:w-[30%]">Small Quantity</TableHead>
+                      <TableHead className="min-w-[120px] sm:w-[30%]">Commercial Quantity</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {substances.map((substance, index) => (
+                      <TableRow key={index}>
+                        <TableCell className="font-medium">{substance.name}</TableCell>
+                        <TableCell>{substance.smallQuantity}</TableCell>
+                        <TableCell>{substance.commercialQuantity}</TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </ScrollArea>
+            </div>
+          </div>
         </CardContent>
       </Card>
 
@@ -141,28 +145,28 @@ export default function NdpsSubstancesQuantityPage() {
         </CardHeader>
         <CardContent className="space-y-3">
           <div className="border-l-4 border-primary pl-4">
-            <p className="text-sm text-muted-foreground">
+            <p className="text-sm text-muted-foreground break-words">
               <strong>Note 1:</strong> The quantities mentioned are as per the NDPS Act and its amendments. Always refer
               to the latest notification for any updates.
             </p>
           </div>
 
           <div className="border-l-4 border-primary pl-4">
-            <p className="text-sm text-muted-foreground">
+            <p className="text-sm text-muted-foreground break-words">
               <strong>Note 2:</strong> For mixtures containing narcotic drugs or psychotropic substances, the quantity
               of the pure drug is considered for classification.
             </p>
           </div>
 
           <div className="border-l-4 border-primary pl-4">
-            <p className="text-sm text-muted-foreground">
+            <p className="text-sm text-muted-foreground break-words">
               <strong>Note 3:</strong> Intermediate quantity refers to any quantity more than small quantity but less
               than commercial quantity.
             </p>
           </div>
 
           <div className="border-l-4 border-primary pl-4">
-            <p className="text-sm text-muted-foreground">
+            <p className="text-sm text-muted-foreground break-words">
               <strong>Note 4:</strong> FSL report is essential to determine the exact quantity and nature of the seized
               substance.
             </p>

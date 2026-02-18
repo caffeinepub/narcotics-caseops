@@ -16,6 +16,8 @@ import ModulesPage from './pages/antf-reference/ModulesPage';
 import NdpsSubstancesQuantityPage from './pages/antf-reference/NdpsSubstancesQuantityPage';
 import AccusedInformationPage from './pages/AccusedInformationPage';
 import AdminRoleManagementPage from './pages/AdminRoleManagementPage';
+import { useEffect } from 'react';
+import { registerServiceWorker } from './pwa/registerServiceWorker';
 
 // Root route with layout
 const rootRoute = createRootRoute({
@@ -138,5 +140,9 @@ declare module '@tanstack/react-router' {
 }
 
 export default function App() {
+  useEffect(() => {
+    registerServiceWorker();
+  }, []);
+
   return <RouterProvider router={router} />;
 }
