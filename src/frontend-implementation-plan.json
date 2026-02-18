@@ -1,0 +1,66 @@
+{
+  "kind": "implementation_plan",
+  "version": "1.0",
+  "title": "Update ANTF Structure reference content (Ops)",
+  "requirements": [
+    {
+      "id": "REQ-1",
+      "summary": "Revise the ANTF Structure reference page narrative to match the provided Anti-Narcotics Task Force (Ops) command hierarchy, subordinate postings for Pune/Nagpur units, and Dy.SP (Ops) range district mapping.",
+      "acceptanceCriteria": [
+        "Navigating to /antf-structure shows the ANTF hierarchy text consistent with the user-provided structure (head, HQ Pune, DIG at HQ, Pune/Nagpur SP units, subordinate Dy.SP postings, and range district mapping list).",
+        "All user-facing content on the page is in English."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/pages/AntfStructurePage.tsx",
+          "operation": "modify",
+          "description": "Update the static content in the hierarchy section to exactly reflect the provided “Anti-Narcotics Task Force (Ops)” organizational structure narrative: head (Special Inspector General of Police), HQ Pune, Deputy Inspector General of Police at HQ, SP (Ops) Pune Unit and SP (Ops) Nagpur Unit, subordinate postings under Pune and Nagpur territory units, and the list of range districts for Dy.SP (Ops) divisions (ensuring the displayed hierarchy and mapping match the provided narrative)."
+        }
+      ]
+    },
+    {
+      "id": "REQ-2",
+      "summary": "Add/verify Legal Advisor and Forensic Expert sections on the ANTF Structure page with role descriptions exactly as provided, including responsibilities and future-scope note.",
+      "acceptanceCriteria": [
+        "The ANTF Structure page contains a clearly labeled Legal Advisor section with the three responsibilities listed in order.",
+        "The ANTF Structure page contains a clearly labeled Forensic Expert section with the provided description and future-scope note."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/pages/AntfStructurePage.tsx",
+          "operation": "modify",
+          "description": "Ensure the Legal Advisor and Forensic Expert sections reproduce the provided text exactly, including: (1) the Legal Advisor description, the three responsibilities in the correct order, and the note that the number of posts may be increased in the future depending on scope of work; (2) the Forensic Expert description and the same future-scope note."
+        }
+      ]
+    },
+    {
+      "id": "REQ-3",
+      "summary": "Add/verify the staffing composition statement for each Dy.SP (Ops) Division, showing total 31 personnel and the exact breakdown by role.",
+      "acceptanceCriteria": [
+        "The ANTF Structure page displays the total strength (31) and the full breakdown of roles exactly as specified."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/pages/AntfStructurePage.tsx",
+          "operation": "modify",
+          "description": "Update the Officer Strength section to display the staffing composition statement exactly as provided: total 31 personnel and the breakdown (01 Dy.SP, 02 PI, 02 API, 02 PSI, 24 officials), ensuring wording and numbers match precisely."
+        }
+      ]
+    },
+    {
+      "id": "REQ-4",
+      "summary": "Clean up obvious spelling/terminology issues in Appendix “A” and related ANTF Structure copy while preserving meaning and jurisdiction mapping intent.",
+      "acceptanceCriteria": [
+        "Appendix “A” headings and district list items use consistent English spelling (e.g., “Konkan” and “Commissionerate”) and do not contain typographical errors such as “Commissionrate/Commissionarate”.",
+        "No change alters the intent of the jurisdiction mapping; only spelling/terminology cleanup is applied."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/pages/AntfStructurePage.tsx",
+          "operation": "modify",
+          "description": "Review and correct spelling/terminology in Appendix “A” and surrounding page copy for professional, consistent English (e.g., normalize Konkan/Kokan to “Konkan”, normalize “Commissionerate” spelling across all items, and fix any place-name spelling inconsistencies) without changing the underlying jurisdiction/district mapping intent."
+        }
+      ]
+    }
+  ]
+}

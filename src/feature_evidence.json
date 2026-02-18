@@ -1,0 +1,85 @@
+{
+  "kind": "feature_evidence_report",
+  "features": [
+    {
+      "featureId": "feature-update-the-antf-structure-reference-page-to-match-the-provided-anti-narcotics-task-force-ops-organizational-structure-narrative-including-command-hierarchy-special-inspector-general-of-police-hq-pune-deputy-inspector-general-of-police-at-hq-sp-ops-pune-unit-sp-ops-nagpur-unit-subordinate-postings-under-pune-and-nagpur-territory-units-and-the-list-of-range-districts-for-dy-sp-ops-divisions",
+      "featureTitle": "Update the ANTF Structure reference page to match the provided “Anti-Narcotics Task Force (Ops)” organizational structure narrative, including: command hierarchy (Special Inspector General of Police; HQ Pune; Deputy Inspector General of Police at HQ; SP (Ops) Pune Unit; SP (Ops) Nagpur Unit), subordinate postings under Pune and Nagpur territory units, and the list of range districts for Dy.SP (Ops) divisions.",
+      "files": [
+        "frontend/src/pages/AntfStructurePage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0",
+        "blob-storage@4.0.0"
+      ],
+      "testIds": [
+        "REQ-1"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-update-the-antf-structure-page-to-include-the-legal-advisor-and-forensic-expert-role-descriptions-exactly-as-provided-including-responsibilities-list-for-legal-advisor-and-the-note-that-the-number-of-posts-may-be-increased-in-the-future-depending-on-scope-of-work",
+      "featureTitle": "Update the ANTF Structure page to include the Legal Advisor and Forensic Expert role descriptions exactly as provided (including responsibilities list for Legal Advisor and the note that the number of posts may be increased in the future depending on scope of work).",
+      "files": [
+        "frontend/src/pages/AntfStructurePage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0",
+        "blob-storage@4.0.0"
+      ],
+      "testIds": [
+        "REQ-2"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-update-the-antf-structure-page-to-include-the-staffing-composition-statement-for-each-dy-sp-ops-division-total-31-personnel-and-the-breakdown-01-dy-sp-02-pi-02-api-02-psi-24-officials",
+      "featureTitle": "Update the ANTF Structure page to include the staffing composition statement for each Dy.SP (Ops) Division (total 31 personnel and the breakdown: 01 Dy.SP, 02 PI, 02 API, 02 PSI, 24 officials).",
+      "files": [
+        "frontend/src/pages/AntfStructurePage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0",
+        "blob-storage@4.0.0"
+      ],
+      "testIds": [
+        "REQ-3"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-correct-obvious-spelling-terminology-issues-in-appendix-a-and-related-antf-structure-page-copy-while-preserving-meaning-e-g-konkan-kokan-commissionerate-spelling-and-place-name-spelling-consistency-so-the-reference-page-reads-professionally-in-english",
+      "featureTitle": "Correct obvious spelling/terminology issues in Appendix “A” and related ANTF Structure page copy while preserving meaning (e.g., Konkan/Kokan, Commissionerate spelling, and place-name spelling consistency) so the reference page reads professionally in English.",
+      "files": [
+        "frontend/src/pages/AntfStructurePage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0",
+        "blob-storage@4.0.0"
+      ],
+      "testIds": [
+        "REQ-4"
+      ],
+      "confidence": "high"
+    }
+  ]
+}
